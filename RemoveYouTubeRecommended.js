@@ -2,7 +2,7 @@
 // @name        Remove YouTube recommended videos
 // @namespace   /u/Signe_
 // @description Hides youtube recommended for you in side bar 
-// @include     *.youtube.com/watch?v=*
+// @include     *.youtube.com/*
 // @version     1
 // @grant       none
 // ==/UserScript==
