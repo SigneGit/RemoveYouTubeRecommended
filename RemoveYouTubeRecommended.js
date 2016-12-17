@@ -8,7 +8,6 @@
 // ==/UserScript==
 var SpanLength = - 1;
 var iRemovedVideos = 0;
-var iRemovedVideos2 = 0;
 var _Counter = 0;
 var CurrentVideoHref = "";
 
@@ -32,7 +31,7 @@ function Detect_NewVideos() {
   if (spans.length > SpanLength || Temp != CurrentVideoHref && _Counter > 3)
   {
     RemoveRecommended();
-    var RemovedVideos = iRemovedVideos2;
+    var RemovedVideos = iRemovedVideos;
     console.log('[DetectVideos] Removed ' + RemovedVideos + ' new videos');
     clearInterval(tDetectNewVideos);
   }
@@ -45,7 +44,6 @@ function Detect_NewVideos() {
 //Actually removes the recommended videos from view
 function RemoveRecommended() {
   iRemovedVideos = 0;
-  iRemovedVideos2 = 0;
   //CurrentVideoTitle = getContentByMetaTagName("og:title");
   CurrentVideoHref = window.location.href;
   
