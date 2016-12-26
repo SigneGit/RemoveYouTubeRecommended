@@ -36,6 +36,7 @@ function Detect_NewVideos() {
       console.log('[DetectVideos] Removed ' + iRemovedVideos + ' new videos');
        else
       console.log('[DetectVideos] No videos removed ');
+      _Counter = 0;
     }
     _Counter++;
   } 
