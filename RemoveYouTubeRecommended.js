@@ -26,6 +26,7 @@ function Detect_NewVideos() {
         console.log('[DetectVideos] Not a video link aborting');
         AnnouceNotaVideoLink = false; //Don't repeat the same message every second
       }
+      _Counter = 0;
       return;
     }
     AnnouceNotaVideoLink = true;
