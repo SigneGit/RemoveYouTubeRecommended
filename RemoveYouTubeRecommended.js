@@ -6,6 +6,7 @@
 // @version     1
 // @grant       none
 // ==/UserScript==
+var AnnouceNotaVideoLink = true;
 var SpanLength = - 1;
 var iRemovedVideos = 0;
 var _Counter = 0;
@@ -13,22 +14,36 @@ var CurrentVideoHref = '';
 var tDetectNewVideos;
 function SetupTimer() {
   tDetectNewVideos = setInterval(Detect_NewVideos, 1000);
-} //Detects when you click on a new video or the 'show more' button
+}//Detects when you click on a new video or the 'show more' button
 
 function Detect_NewVideos() {
-  var spans = document.getElementsByClassName('view-count');
-  var Temp = window.location.href;
-  if (spans.length > SpanLength || Temp != CurrentVideoHref && _Counter > 3)
+  try
   {
-    if (window.location.href.includes('watch?v='))
+    var spans = document.getElementsByClassName('view-count');
+    var Temp = window.location.href;
+    if (!Temp.includes('watch?v=')) {
+      if (AnnouceNotaVideoLink) {
+        console.log('[DetectVideos] Not a video link aborting');
+        AnnouceNotaVideoLink = false; //Don't repeat the same message every second
+      }
+      return;
+    }
+    AnnouceNotaVideoLink = true;
+    if (spans.length > SpanLength || Temp != CurrentVideoHref && _Counter > 3)
     {
       RemoveRecommended();
-      var RemovedVideos = iRemovedVideos;
-      console.log('[DetectVideos] Removed ' + RemovedVideos + ' new videos');
-    }    //clearInterval(tDetectNewVideos);
+      if (iRemovedVideos > 0)
+      console.log('[DetectVideos] Removed ' + iRemovedVideos + ' new videos');
+       else
+      console.log('[DetectVideos] No videos removed ');
+    }
+    _Counter++;
+  } 
+  catch (err)
+  {
+    console.log('[DetectVideos] Error: ' + err.message)
   }
-  _Counter++;
-} //Actually removes the recommended videos from view
+}//Actually removes the recommended videos from view
 
 function RemoveRecommended() {
   iRemovedVideos = 0;
@@ -52,18 +67,6 @@ function RemoveRecommended() {
       iRemovedVideos++;
     }
   }
-  var WatchMore = document.getElementsByClassName('yt-uix-button');
-  for (var b = 0; b < WatchMore.length; b++)
-  {
-    if (WatchMore[b].id == 'watch-more-related-button')
-    {
-      WatchMore[b].addEventListener('click', SetupTimer, false);
-      break;
-    }
-  }
   SpanLength = spans.length;
-  console.log('[DetectVideos] Removed ' + iRemovedVideos + ' Videos');
-  console.log('[DetectVideos] Finished');
 }
 SetupTimer();
-//RemoveRecommended();
